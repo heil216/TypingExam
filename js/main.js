@@ -1,29 +1,37 @@
 'use strict';
 
 {
-  let words1 = ['a','i','u'];
-  let words2 = ['e','o','k'];
-  let words3 = ['r','t','y'];
-  const words = [words1,words2,words3];
+  let words1 = ['akarui','gakusei','daigaku','nihonngo','nukeana','kawaii','tonnkatu','oosaka','kateika','kuukou',];
+  let words2 = ['kudamono','sorobann','kumonosu','kureyonn','koumori','kokuhaku','saitama','saikoro','suitou','sutamina',];
+  let words3 = ['sennsei','soumenn','taitoru','takenoko','tamanegi','tennkiyohou','eisakubunn','eigakann','suiheisenn','aomorikenn',];
+  let words4 = ['oukakumaku','ouenndann','kaisuiyoku','kairannbann','keirounohi','koukousei','saisentan','saibannkann','hourennsou','seihoukei',];
+  let words5 = ['sekaikiroku','sennsuikann','senntakumono','taiikukann','taiheiyou','tanukiudonn','tikarakurabe','tokeimawari','hakubutukann','huusenngamu',];
+  const words = [words1,words2,words3,words4,words5,];
   
-  let jpwords1 = ['あ','い','う'];
-  let jpwords2 = ['え','お','か'];
-  let jpwords3 = ['る','ち','よ'];
-  const jpwords = [jpwords1,jpwords2,jpwords3];
+  let jpwords1 = ['明るい','学生','大学','日本語','抜け穴','かわいい','とんかつ','大坂','家庭科','空港',];
+  let jpwords2 = ['くだもの','そろばん','クモの巣','クレヨン','コウモリ','告白','埼玉','サイコロ','水筒','スタミナ',];
+  let jpwords3 = ['先生','そうめん','タイトル','タケノコ','タマネギ','天気予報','英作文','映画館','水平線','青森県',];
+  let jpwords4 = ['横隔膜','応援団','海水浴','回覧板','敬老の日','高校生','最先端','裁判官','ほうれん草','正方形',];
+  let jpwords5 = ['世界記録','潜水艦','洗濯物','体育館','太平洋','たぬきうどん','ちからくらべ','時計まわり','博物館','ふうせんガム',];
+  
+  const jpwords = [jpwords1,jpwords2,jpwords3,jpwords4,jpwords5,];
 
-  
   let trial1 = new Array(2); 
   let trial2 = new Array(2); 
   let trial3 = new Array(2); 
+  let trial4 = new Array(2); 
+  let trial5 = new Array(2); 
   
   const record = [
     trial1,
     trial2,
     trial3,
+    trial4,
+    trial5,
   ];
 
   let n = 0;
-  let time_limit = 10;
+  let time_limit = 30;
   // let gTimeLimit;    // 制限時間用
   // let gTimeStart;    // 開始時間用
   // let gTid;          // タイマー用
@@ -95,8 +103,14 @@
       } else if ( n === 3 ) {
         Words = words[2];
         JpWords = jpwords[2];
+      } else if ( n === 4 ) {
+        Words = words[3];
+        JpWords = jpwords[3];
+      } else if ( n === 5 ) {
+        Words = words[4];
+        JpWords = jpwords[4];
       } else {
-        return ;
+        result.textContent = 'Finished!';
       }
       ran = Math.floor(Math.random() * Words.length);
       word = Words.splice(ran,1)[0];
@@ -111,7 +125,7 @@
       startTime = Date.now();
       // console.log(startTime);
       n++;
-      if( n < 4 ){
+      if( n < 6 ){
         setWord();
         var time_remaining = time_limit;
         var gametimer = setInterval(function(){
