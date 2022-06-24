@@ -31,7 +31,7 @@
   ];
 
   let n = 0;
-  let time_limit = 35;
+  let time_limit = 40;
   // let gTimeLimit;    // 制限時間用
   // let gTimeStart;    // 開始時間用
   // let gTid;          // タイマー用
@@ -49,6 +49,9 @@
   let isPlaying = false;
   const result = document.getElementById('result');
   const target = document.getElementById('target');
+  const remainTime = document.getElementById('remainTime');
+  const rest = document.getElementById('rest');
+  remainTime.style.visibility = "hidden";
   
   document.addEventListener('keydown',() => {
     if(isPlaying === true) {
@@ -60,8 +63,8 @@
   
   function ready(){
     target.style.visibility = "hidden";
-    var count = 16;
-    var ready = setInterval(function(){
+    let count = 3;
+    let ready = setInterval(function(){
       count--;
       console.log(count);
       readyTime.textContent=count;
@@ -73,6 +76,7 @@
     };
     
     function setWord() {
+      target.style.visibility = "visible";
       japanese.style.visibility = "visible";
       readyTime.style.visibility = "hidden";
       if( n === 1 ) {
@@ -103,59 +107,67 @@
     
     function gamestart(){
       startTime = Date.now();
-      target.style.visibility = "visible";
       readyTime.style.visibility = "hidden";
       rest.style.visibility = "hidden";
       n++;
-      if( n < 6 ){
+      if( n < 5 ){
         setWord();
-        var time_remaining = time_limit;
-        var gametimer = setInterval(function(){
+        let time_remaining = time_limit;
+        let gametimer = setInterval(function(){
           time_remaining--;
           console.log(time_remaining);
           if(time_remaining <= 0){
             clearInterval(gametimer);
             remain();
           }},1000);
-        } else {
-          target.textContent = '終わりです！お疲れ様でした！';
-          japanese.style.visibility = "hidden";
-          rest.style.visibility = "hidden";
-          console.log(n);
-        }
-      };
-      
-      function remain(){
-        target.textContent = '安静時間';
-        japanese.style.visibility = "hidden";
-        rest.style.visibility = "visible";
-        mistake = 0;
-        correct = 0;
-        let remainingTime = 16;
-        let clock = setInterval(function(){
-          remainingTime--;
-          console.log(remainingTime);
-          rest.textContent=remainingTime;
-          if(remainingTime <= 0) {
-            
-            clearInterval(clock);
-            gamestart();
+        } else if( n === 5 ){
+          setWord();
+          let time_remaining = time_limit;
+          let gametimer = setInterval(function(){
+            time_remaining--;
+            console.log(time_remaining);
+            if(time_remaining <= 0){
+              clearInterval(gametimer);
+              target.textContent = '終わりです！お疲れ様でした！';
+              japanese.style.visibility = "hidden";
+            rest.style.visibility = "hidden";
+            console.log(n);
+            }},1000);
+          } else {
           }
-        },1000);
+        };
+        
+        function remain(){
+          target.textContent = '安静時間';
+          remainTime.style.visibility = "hidden";
+          japanese.style.visibility = "hidden";
+          rest.style.visibility = "visible";
+          mistake = 0;
+          correct = 0;
+          let remainingTime = 15;
+          let clock = setInterval(function(){
+            remainingTime--;
+            console.log(remainingTime);
+            rest.textContent=remainingTime;
+            if(remainingTime <= 0) {
+              clearInterval(clock);
+              gamestart();
+            }
+          },1000);
         
       };
       
       document.addEventListener('keydown',e => {
-          if (e.key !== word[loc]) {
-            mistake++;
-            return;
-          } else {
-            correct++;
+        if (e.key !== word[loc]) {
+          mistake++;
+          return;
+        } else {
+          correct++;
             loc++;
             target.textContent = '_'.repeat(loc) + word.substring(loc);
             // console.log(loc);
           }
-
+          
           
           if(loc === word.length) {
             if(Words.length === 0) {
@@ -165,6 +177,9 @@
               record[n-1][1] = correct;
               record[n-1][2] = mistake;
               console.log(record);
+              
+              remainTime.style.visibility = "visible";
+              // target.textContent = '次の試行までしばらくおまち下さい';
               // result.textContent = '終わりです！お疲れ様でした！';
             }
               setWord();

@@ -21,7 +21,8 @@ body {
 
 #japanese ,
 #readyTime,
-#rest
+#rest,
+#remainTime
 {
   font-size:40px;
 }
@@ -30,3 +31,4 @@ body {
   position:relative;
   top:100px;
 }
+
