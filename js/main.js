@@ -4,7 +4,7 @@
   let words1 = ['akarui','gakusei','daigaku','nihonngo','nukeana','kawaii','tonnkatu','oosaka','kateika','kuukou',];
   let words2 = ['kudamono','sorobann','kumonosu','kureyonn','koumori','kokuhaku','saitama','saikoro','suitou','sutamina',];
   let words3 = ['sennsei','soumenn','taitoru','takenoko','tamanegi','tennkiyohou','eisakubunn','eigakann','suiheisenn','aomorikenn',];
-  let words4 = ['oukakumaku','ouenndann','kaisuiyoku','kairannbann','keirounohi','koukousei','saisentan','saibannkann','hourennsou','seihoukei',];
+  let words4 = ['oukakumaku','ouenndann','kaisuiyoku','kairannbann','keirounohi','koukousei','saisentann','saibannkann','hourennsou','seihoukei',];
   let words5 = ['sekaikiroku','sennsuikann','senntakumono','taiikukann','taiheiyou','tanukiudonn','tikarakurabe','tokeimawari','hakubutukann','huusenngamu',];
   const words = [words1,words2,words3,words4,words5,];
   
@@ -31,7 +31,7 @@
   ];
 
   let n = 0;
-  let time_limit = 30;
+  let time_limit = 35;
   // let gTimeLimit;    // 制限時間用
   // let gTimeStart;    // 開始時間用
   // let gTid;          // タイマー用
@@ -49,9 +49,6 @@
   let isPlaying = false;
   const result = document.getElementById('result');
   const target = document.getElementById('target');
-  // let japanese = document.getElementById('japanese');
-  // let readyTime = document.getElementById('readyTime');
-  // let rest = document.getElementById('rest');
   
   document.addEventListener('keydown',() => {
     if(isPlaying === true) {
@@ -62,9 +59,11 @@
   });
   
   function ready(){
-    var count = 4;
+    target.style.visibility = "hidden";
+    var count = 16;
     var ready = setInterval(function(){
       count--;
+      console.log(count);
       readyTime.textContent=count;
       if(count <= 0) {
         clearInterval(ready);
@@ -73,27 +72,9 @@
       },1000);
     };
     
-    // function setWord(){
-      //     var count = 10;
-      //     readyTime.style.visibility = "hidden";
-      //     var ready = setInterval(function(){
-        //       count--;
-        //       ran = Math.floor(Math.random() * words.length);
-        //       word = words.splice(ran,1)[0];
-  //       jpword = jpwords.splice(ran,1)[0];
-  //       target.textContent = word;
-  //       japanese.textContent = jpword;
-  //       loc = 0
-  //       if(count <= 0) {
-    //         clearInterval(ready);
-    //       };
-    //     },10000);
-    //   };
-    
     function setWord() {
+      japanese.style.visibility = "visible";
       readyTime.style.visibility = "hidden";
-
-
       if( n === 1 ) {
         Words = words[0];
         JpWords = jpwords[0];
@@ -110,7 +91,7 @@
         Words = words[4];
         JpWords = jpwords[4];
       } else {
-        result.textContent = 'Finished!';
+        return;
       }
       ran = Math.floor(Math.random() * Words.length);
       word = Words.splice(ran,1)[0];
@@ -118,45 +99,53 @@
       target.textContent = word;
       japanese.textContent = jpword;
       loc = 0
-      
     }
     
     function gamestart(){
       startTime = Date.now();
-      // console.log(startTime);
+      target.style.visibility = "visible";
+      readyTime.style.visibility = "hidden";
+      rest.style.visibility = "hidden";
       n++;
       if( n < 6 ){
         setWord();
         var time_remaining = time_limit;
         var gametimer = setInterval(function(){
-            time_remaining--;
-            if(time_remaining <= 0){
+          time_remaining--;
+          console.log(time_remaining);
+          if(time_remaining <= 0){
             clearInterval(gametimer);
             remain();
-      }},1000);
-      } else {
-        result.textContent = 'Finished!';
-        // result.style.visibility = "visible";
-      }
-    };
-
-    function remain(){
-      mistake = 0;
-      correct = 0;
-      let remainingTime = 4;
-      let clock = setInterval(function(){
-        remainingTime--;
-        rest.textContent=remainingTime;
-        if(remainingTime <= 0) {
-   
-          clearInterval(clock);
-          gamestart();
+          }},1000);
+        } else {
+          target.textContent = '終わりです！お疲れ様でした！';
+          japanese.style.visibility = "hidden";
+          rest.style.visibility = "hidden";
+          console.log(n);
         }
-        },1000);
-
       };
-
-        document.addEventListener('keydown',e => {
+      
+      function remain(){
+        target.textContent = '安静時間';
+        japanese.style.visibility = "hidden";
+        rest.style.visibility = "visible";
+        mistake = 0;
+        correct = 0;
+        let remainingTime = 16;
+        let clock = setInterval(function(){
+          remainingTime--;
+          console.log(remainingTime);
+          rest.textContent=remainingTime;
+          if(remainingTime <= 0) {
+            
+            clearInterval(clock);
+            gamestart();
+          }
+        },1000);
+        
+      };
+      
+      document.addEventListener('keydown',e => {
           if (e.key !== word[loc]) {
             mistake++;
             return;
@@ -176,6 +165,7 @@
               record[n-1][1] = correct;
               record[n-1][2] = mistake;
               console.log(record);
+              // result.textContent = '終わりです！お疲れ様でした！';
             }
               setWord();
               
