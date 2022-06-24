@@ -63,7 +63,7 @@
   
   function ready(){
     target.style.visibility = "hidden";
-    let count = 3;
+    let count = 16;
     let ready = setInterval(function(){
       count--;
       console.log(count);
@@ -144,7 +144,7 @@
           rest.style.visibility = "visible";
           mistake = 0;
           correct = 0;
-          let remainingTime = 15;
+          let remainingTime = 16;
           let clock = setInterval(function(){
             remainingTime--;
             console.log(remainingTime);
@@ -178,7 +178,7 @@
               record[n-1][2] = mistake;
               console.log(record);
               
-              remainTime.style.visibility = "visible";
+              // remainTime.style.visibility = "visible";
               // target.textContent = '次の試行までしばらくおまち下さい';
               // result.textContent = '終わりです！お疲れ様でした！';
             }
