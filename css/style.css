@@ -10,6 +10,7 @@ body {
   margin: auto;
   width: 80%;
   height: 20.0rem;
+  background-color:#D4D4D4;
 }
 
 #target {
@@ -19,13 +20,17 @@ body {
   margin-top:16px;
 }
 
+#remainTime {
+  font-size:60px;
+}
+
 #japanese ,
 #readyTime,
-#rest,
-#remainTime
+#rest
 {
   font-size:40px;
 }
+
 
 #readyTime {
   position:relative;

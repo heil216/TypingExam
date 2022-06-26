@@ -131,6 +131,7 @@
               target.textContent = '終わりです！お疲れ様でした！';
               japanese.style.visibility = "hidden";
             rest.style.visibility = "hidden";
+            remainTime.style.visibility = "hidden";
             console.log(n);
             }},1000);
           } else {
@@ -138,7 +139,7 @@
         };
         
         function remain(){
-          target.textContent = '安静時間';
+          target.textContent = '+';
           remainTime.style.visibility = "hidden";
           japanese.style.visibility = "hidden";
           rest.style.visibility = "visible";
@@ -178,7 +179,7 @@
               record[n-1][2] = mistake;
               console.log(record);
               
-              // remainTime.style.visibility = "visible";
+              remainTime.style.visibility = "visible";
               // target.textContent = '次の試行までしばらくおまち下さい';
               // result.textContent = '終わりです！お疲れ様でした！';
             }
