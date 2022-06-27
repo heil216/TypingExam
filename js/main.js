@@ -31,7 +31,7 @@
   ];
   
   let n = 0;
-  let time_limit = 15;
+  let time_limit = 45;
   // let time_remaining;
   let jpword;
   let Words ;
