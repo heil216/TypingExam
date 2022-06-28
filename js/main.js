@@ -31,8 +31,8 @@
   ];
   
   let n = 0;
-  let time_limit = 45;
-  // let time_remaining;
+  let time_limit = 5;
+
   let jpword;
   let Words ;
   let JpWords ;
@@ -45,7 +45,6 @@
   let endTime = 0;
   let elapsedTime = 0;
   let isPlaying = false;
-  // const result = document.getElementById('result');
   const target = document.getElementById('target');
   const remainTime = document.getElementById('remainTime');
   const rest = document.getElementById('rest');
@@ -61,128 +60,116 @@
   
   function ready(){
     target.style.visibility = "hidden";
-    let count = 15;
+    let count = 3;
     let ready = setInterval(function(){
       readyTime.textContent=count;
-      console.log(count);
       count--;
-      if(count < 0) {
+      console.log(count);
+      if(count === -1) {
         clearInterval(ready);
         gamestart();
       }
       },1000);
     };
     
-    function setWord() {
-      target.style.visibility = "visible";
-      japanese.style.visibility = "visible";
-      readyTime.style.visibility = "hidden";
-      // remainTime.style.visibility = "hidden";
-      if( n === 1 ) {
-        Words = words[0];
-        JpWords = jpwords[0];
-      } else if ( n === 2 ) {
-        Words = words[1];
-        JpWords = jpwords[1];
-      } else if ( n === 3 ) {
-        Words = words[2];
-        JpWords = jpwords[2];
-      } else if ( n === 4 ) {
-        Words = words[3];
-        JpWords = jpwords[3];
-      } else if ( n === 5 ) {
-        Words = words[4];
-        JpWords = jpwords[4];
-      } else {
-        return;
-      }
-      ran = Math.floor(Math.random() * Words.length);
-      word = Words.splice(ran,1)[0];
-      jpword = JpWords.splice(ran,1)[0];
-      target.textContent = word;
-      japanese.textContent = jpword;
-      loc = 0
+  function setWord() {
+    target.style.visibility = "visible";
+    japanese.style.visibility = "visible";
+    readyTime.style.visibility = "hidden";
+    if( n === 1 ) {
+      Words = words[0];
+      JpWords = jpwords[0];
+    } else if ( n === 2 ) {
+      Words = words[1];
+      JpWords = jpwords[1];
+    } else if ( n === 3 ) {
+      Words = words[2];
+      JpWords = jpwords[2];
+    } else if ( n === 4 ) {
+      Words = words[3];
+      JpWords = jpwords[3];
+    } else if ( n === 5 ) {
+      Words = words[4];
+      JpWords = jpwords[4];
+    } else {
+      return;
     }
+    ran = Math.floor(Math.random() * Words.length);
+    word = Words.splice(ran,1)[0];
+    jpword = JpWords.splice(ran,1)[0];
+    target.textContent = word;
+    japanese.textContent = jpword;
+    loc = 0
+  }
     
-    function gamestart(){
-      startTime = Date.now();
-      readyTime.style.visibility = "hidden";
-      rest.style.visibility = "hidden";
-      mistake = 0;
-      correct = 0;
-      n++;
-      if( n < 5 ){
-        setWord();
-        let time_remaining = time_limit;
-        let gametimer = setInterval(function(){
-        time_remaining--;
-        console.log(time_remaining);
-        if(time_remaining <= 0){
-          clearInterval(gametimer);
-          delete words[n-1];
-          remain();
-        }},1000);
+  function gamestart(){
+    let time_remaining = time_limit;
+    startTime = Date.now();
+    readyTime.style.visibility = "hidden";
+    rest.style.visibility = "hidden";
+    mistake = 0;
+    correct = 0;
+    n++;
+    setWord();
+    let gametimer = setInterval(function(){
+      console.log(time_remaining);
+      time_remaining--;
+      if(time_remaining <= 0){
+        delete words[n-1];
+        clearInterval(gametimer);
+        if( n < 5 ){
+        remain();
       } else if ( n === 5 ) {
-        setWord();
-        let time_remaining = time_limit;
-        let gametimer = setInterval(function(){
-          time_remaining--;
-          console.log(time_remaining);
-          if(time_remaining <= 0){
-            clearInterval(gametimer);
-            target.textContent = '終わりです！お疲れ様でした！';
-            japanese.style.visibility = "hidden";
-            rest.style.visibility = "hidden";
-            remainTime.style.visibility = "hidden";
-            record[n-1][1] = correct;
-            record[n-1][2] = mistake;
-            delete words[4];
-            console.log(record);
-          }},1000);
-        }
-      };
-      
-      function remain(){
+        target.textContent = '終わりです！お疲れ様でした！';
+        japanese.style.visibility = "hidden";
+        rest.style.visibility = "hidden";
+        remainTime.style.visibility = "hidden";
         record[n-1][1] = correct;
         record[n-1][2] = mistake;
-        target.textContent = '+';
-        remainTime.style.visibility = "hidden";
-        japanese.style.visibility = "hidden";
-        rest.style.visibility = "visible";
         console.log(record);
-        let remainingTime = 15;
-        let clock = setInterval(function(){
-          rest.textContent=remainingTime;
-          console.log(remainingTime);
-          remainingTime--;
-          if(remainingTime < 0) {
-            clearInterval(clock);
-            gamestart();
-          }
-        },1000);
+    }}},1000);
       };
       
-      
-      document.addEventListener('keydown',e => {
-        if (e.key !== word[loc]) {
-          mistake++;
-          return;
-          } else {
-            correct++;
-              loc++;
-              target.textContent = '_'.repeat(loc) + word.substring(loc);
-            }
-            
-        if(loc === word.length) {
-          if(Words.length === 0) {
-            endTime = Date.now();
-            elapsedTime = ((endTime - startTime) / 1000).toFixed(2);
-            record[n-1][0] = elapsedTime;
-            remainTime.style.visibility = "visible";
-          }
-            setWord();
-          }
-        });
-        //     if(time_remaining >0){
-        // }
+  function remain(){
+    record[n-1][1] = correct;
+    record[n-1][2] = mistake;
+    target.textContent = '+';
+    remainTime.style.visibility = "hidden";
+    japanese.style.visibility = "hidden";
+    rest.style.visibility = "visible";
+    console.log(record);
+    rest.textContent=15;
+    let remainingTime = 4;
+    let clock = setInterval(function(){
+      rest.textContent=remainingTime;
+      console.log(remainingTime);
+      remainingTime--;
+      if(remainingTime <= -1) {
+        clearInterval(clock);
+        gamestart();
       }
+    },1000);
+  };
+      
+
+  document.addEventListener('keydown',e => {
+    if (e.key !== word[loc]) {
+      mistake++;
+      return;
+    } else {
+      correct++;
+      loc++;
+      target.textContent = '_'.repeat(loc) + word.substring(loc);
+    }
+        
+    if(loc === word.length) {
+      if(Words.length === 0) {
+        endTime = Date.now();
+        elapsedTime = ((endTime - startTime) / 1000).toFixed(2);
+        record[n-1][0] = elapsedTime;
+        remainTime.style.visibility = "visible";
+      }
+        setWord();
+      }
+    });
+}
