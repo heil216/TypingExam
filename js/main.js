@@ -31,7 +31,7 @@
   ];
   
   let n = 0;
-  let time_limit = 5;
+  let time_limit = 45;
 
   let jpword;
   let Words ;
@@ -60,7 +60,7 @@
   
   function ready(){
     target.style.visibility = "hidden";
-    let count = 3;
+    let count = 15;
     let ready = setInterval(function(){
       readyTime.textContent=count;
       count--;
@@ -139,7 +139,7 @@
     rest.style.visibility = "visible";
     console.log(record);
     rest.textContent=15;
-    let remainingTime = 4;
+    let remainingTime = 14;
     let clock = setInterval(function(){
       rest.textContent=remainingTime;
       console.log(remainingTime);
