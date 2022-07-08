@@ -91,16 +91,16 @@
   // '','','','','','','','','','',
 ];
 
-  let trial_1 = new Array(2); 
-  let trial_2 = new Array(2); 
-  let trial_3 = new Array(2); 
-  let trial_4 = new Array(2); 
-  let trial_5 = new Array(2); 
-  let trial_6 = new Array(2); 
-  let trial_7 = new Array(2); 
-  let trial_8 = new Array(2); 
-  let trial_9 = new Array(2); 
-  let trial_10 = new Array(2); 
+  let trial_1 = new Array(4); 
+  let trial_2 = new Array(4); 
+  let trial_3 = new Array(4); 
+  let trial_4 = new Array(4); 
+  let trial_5 = new Array(4); 
+  let trial_6 = new Array(4); 
+  let trial_7 = new Array(4); 
+  let trial_8 = new Array(4); 
+  // let trial_9 = new Array(4); 
+  // let trial_10 = new Array(4); 
   
   const record = [
     trial_1,
@@ -111,8 +111,8 @@
     trial_6,
     trial_7,
     trial_8,
-    trial_9,
-    trial_10,
+    // trial_9,
+    // trial_10,
   ];
   
   let n = 0;
@@ -126,6 +126,11 @@
   let loc = 0;
   let correct  = 0;
   let mistake = 0;
+  let inputcharacters = 0;
+  let WordPerMinutes = 0;
+  let CorrectRate = 0;
+  let score = 0;
+  let result = 0;
   let startTime = 0;
   let endTime = 0;
   let elapsedTime = 0;
@@ -140,7 +145,10 @@
       return;
     }
     isPlaying = true ;
-    ready();
+    target.textContent = "5秒後に開始します。キーボードに手を置いてなるべく動かないようにして下さい"
+    setTimeout(function(){
+      ready();
+    },5000);
   });
   
   function ready(){
@@ -149,7 +157,7 @@
     let ready = setInterval(function(){
       readyTime.textContent=count;
       count--;
-      console.log(count);
+      // console.log(count);
       if(count === -1) {
         clearInterval(ready);
         gamestart();
@@ -169,35 +177,6 @@
     japanese.textContent = jpword;
     loc = 0
   }
-  //   function setWord() {
-  //   target.style.visibility = "visible";
-  //   japanese.style.visibility = "visible";
-  //   readyTime.style.visibility = "hidden";
-  //   if( n === 1 ) {
-  //     Words = words[0];
-  //     JpWords = jpwords[0];
-  //   } else if ( n === 2 ) {
-  //     Words = words[1];
-  //     JpWords = jpwords[1];
-  //   } else if ( n === 3 ) {
-  //     Words = words[2];
-  //     JpWords = jpwords[2];
-  //   } else if ( n === 4 ) {
-  //     Words = words[3];
-  //     JpWords = jpwords[3];
-  //   } else if ( n === 5 ) {
-  //     Words = words[4];
-  //     JpWords = jpwords[4];
-  //   } else {
-  //     return;
-  //   }
-  //   ran = Math.floor(Math.random() * Words.length);
-  //   word = Words.splice(ran,1)[0];
-  //   jpword = JpWords.splice(ran,1)[0];
-  //   target.textContent = word;
-  //   japanese.textContent = jpword;
-  //   loc = 0
-  // }
   
   function gamestart(){
     let time_remaining = time_limit;
@@ -209,7 +188,7 @@
     n++;
     setWord();
     let gametimer = setInterval(function(){
-      console.log(time_remaining);
+      // console.log(time_remaining);
       time_remaining--;
       if(time_remaining <= 0){
         clearInterval(gametimer);
@@ -244,8 +223,15 @@
   };
       
     function remain(){
-    record[n-1][1] = correct;
-    record[n-1][2] = mistake;
+      inputcharacters = correct + mistake;
+      WordPerMinutes = 3*inputcharacters;
+      CorrectRate = (correct / inputcharacters) * 100;
+      score = WordPerMinutes * (CorrectRate / 100) **3;
+      record[n-1][0] = WordPerMinutes;
+      record[n-1][1] = correct;
+      record[n-1][2] = mistake;
+      record[n-1][3] = CorrectRate;
+      record[n-1][4] = score;
     target.textContent = '+';
     remainTime.style.visibility = "hidden";
     japanese.style.visibility = "hidden";
@@ -255,7 +241,7 @@
     let remainingTime = 19;
     let clock = setInterval(function(){
       rest.textContent=remainingTime;
-      console.log(remainingTime);
+      // console.log(remainingTime);
       remainingTime--;
       if(remainingTime <= -1) {
         clearInterval(clock);
@@ -264,7 +250,8 @@
         } else if ( n === 8 ) {
           target.textContent = '終わりです！お疲れ様でした！';
           rest.style.visibility = "hidden";
-          console.log(record);
+          result = (record[0][4] + record[1][4] + record[2][4] + record[4][4] + record[5][4] + record[6][4] + record[7][4] ) / 8;
+          console.log(result);
         }};
       },1000);
   };
